@@ -1,5 +1,6 @@
+// models/BotToken.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../db'); // Pastikan path benar
 
 const BotToken = sequelize.define('BotToken', {
   token: {
@@ -12,7 +13,8 @@ const BotToken = sequelize.define('BotToken', {
     allowNull: true
   }
 }, {
-  timestamps: true // Aktifkan createdAt & updatedAt
+  timestamps: true,
+  tableName: 'bot_tokens' // Nama tabel eksplisit
 });
 
 module.exports = BotToken;
