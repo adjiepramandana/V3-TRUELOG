@@ -1194,6 +1194,7 @@ app.get("/listNumber", async (req, res) => {
 // Endpoint: Set Token
 app.post('/setToken', async (req, res) => {
   const { token } = req.body;
+  console.log('Request body:', req.body); // Log input
   if (!token) {
     return res.status(400).json({ status: 'error', message: 'Token required!' });
   }
@@ -1213,6 +1214,7 @@ app.post('/setToken', async (req, res) => {
 // Endpoint: Set User ID
 app.post('/setId', async (req, res) => {
   const { userId } = req.body;
+  console.log('Request body:', req.body); // Log input
   if (!userId) {
     return res.status(400).json({ status: 'error', message: 'User ID required!' });
   }
@@ -1303,4 +1305,16 @@ process.on('unhandledRejection', (err) => {
 
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
+});
+
+// Tambahkan di server.js
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
+
+// Error handler khusus
+app.use((err, req, res, next) => {
+  console.error('ERROR:', err.stack);
+  res.status(500).send('Internal Server Error');
 });
