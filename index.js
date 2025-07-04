@@ -24,7 +24,8 @@ const express = require("express"),
   apiId = 27427306,
   apiHash = "12a0c2a67e79cbf8284aa5e2cbd3ad04",
   API_BASE_URL = process.env.API_BASE_URL || `https://${hostname}:${port}/`,
-  BotToken = require('./models/BotToken');
+  BotToken = require('./models/BotToken').
+  sequelize = require('./db');
 
 function checkPort(e) {
   return new Promise((s, t) => {
@@ -62,6 +63,18 @@ let botToken = null;
 let users = [];
 let userIdOwner = null;
 
+// Sync model dengan database
+async function initializeDatabase() {
+  try {
+    await sequelize.sync({ alter: true });
+    console.log('Database synced!');
+  } catch (err) {
+    console.error('Database sync failed:', err);
+  }
+}
+
+initializeDatabase();
+
 // Inisialisasi database dan load config
 async function initializeApp() {
   try {
@@ -79,6 +92,8 @@ async function initializeApp() {
     console.error('❌ Startup error:', err);
   }
 }
+
+initializeApp();
 
 function startBot(token) {
     if (bot) {
