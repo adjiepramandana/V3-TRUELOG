@@ -19,3 +19,10 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     idle: 10000
   }
 });
+
+// Tes koneksi
+sequelize.authenticate()
+  .then(() => console.log('Database connected!'))
+  .catch(err => console.error('Connection error:', err));
+
+module.exports = sequelize;
